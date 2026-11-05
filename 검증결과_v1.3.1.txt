@@ -1,0 +1,16 @@
+검증 환경: Microsoft Edge / Playwright, Asia/Seoul
+Google Apps Script 네트워크는 모두 모의 응답 처리. 실제 시트 읽기/쓰기 및 배포 없음.
+미리보기: 이전 대화의 2026-11-02 백업 데이터 사용(최신 실데이터 아님).
+
+PASS 초기 Google Sheets 응답 → 간트/요약 동시 렌더링
+PASS 검색 결과 및 빈 결과 일치
+PASS 필수 입력 검증/프로젝트 등록/자동 저장 요청
+PASS 하위 업무 등록/수정/삭제 및 ESC 취소
+PASS 수동 동기화 응답 자동 반영
+PASS 5분 동기화 콜백 자동 반영
+PASS JSON 복원 후 자동 갱신
+PASS JSON 백업 버전 확인
+PASS 기존 PDF 다운로드
+PASS 모바일 요약 표 가로 스크롤
+PASS 전체 삭제 후 빈 상태
+PASS 브라우저 JavaScript 오류 없음
