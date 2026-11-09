@@ -22,3 +22,9 @@ DOM-based checks passed: all inline JavaScript parses, home has 12 tools, all 12
 The file has been authored, but design QA has not passed. No visual-verification or complete source-parity claim is made.
 
 Selection CSS: #36c25e base; 14% selected fill, 42% border, 8% hover, 55% focus. Computed DOM styles match the selected menu/tab/filter/card fill and border colors.
+
+## TESTCASE_FORM export update
+
+The uploaded netlify-deploy.zip matched the prior HTML byte for byte and was used as the change baseline. Excel TC export now uses the supplied workbook’s sheet, widths, styles, theme and importance conditional formatting. Generated rows use the ten A:J columns, with the original K-column importance guide preserved. CSV/copy column customization is unchanged.
+
+Verification: actual asynchronous Excel-download event with filtered/selected rows and no CSV columns selected; duplicate-click guard; stable/imported IDs; empty/overlength guards; 1,001-case output; generated eight-case example. Independent openpyxl reads verify headers, cell styles, widths, theme, High/Medium/Low and P1/P2/P3 values, string escaping, literal formula-like text, multiline data and extended conditional-format ranges. Author/path/person metadata is omitted from the embedded template. No new browser visual-verification claim is made.

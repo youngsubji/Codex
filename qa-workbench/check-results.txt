@@ -1,4 +1,5 @@
 PASS: JavaScript syntax; offline DOM startup; 12 tool views; settings/home; TC generation; boundary success/invalid input; pairwise; decision; API data; field data; sample data; JSON diff; schema violation; diagnostic script; saved tool validation; CSV formula protection; XLSX ZIP header; fixed embedded logo matches brand asset; removed logo picker/export controls and stored-logo override; #36c25e selection tokens (14% fill, 42% border, 8% hover); home preview/navigation and language switch.
-PASS: computed selected CSS for sidebar menu, input-mode tab, filter and home card resolves to rgba(54, 194, 94, 0.14), with rgba(54, 194, 94, 0.42) borders (input-mode underline uses 80%).
 No DOM runtime errors. Browser APIs missing from jsdom were stubbed.
 BLOCKED: actual browser visual QA, file selection, clipboard and download verification.
+PASS: TESTCASE_FORM export download handler, current filter/selection, export despite zero CSV columns, duplicate-click guard, stable/source TC IDs, empty/overlength validation.
+PASS: openpyxl independently opens 1/3/1001-case fixtures and 8-case generated example; headers, widths, styles/theme match attached template; P1/P2/P3 → High/Medium/Low, Unicode/multiline/literal formula text, extended importance conditions verified.
