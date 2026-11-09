@@ -1,0 +1,3 @@
+PASS: JavaScript syntax; offline DOM startup; 12 tool views; settings/home; TC generation; boundary success/invalid input; pairwise; decision; API data; field data; sample data; JSON diff; schema violation; diagnostic script; saved tool validation; CSV formula protection; XLSX ZIP header; logo dialog; portable clean HTML template.
+No DOM runtime errors. Browser APIs missing from jsdom were stubbed.
+BLOCKED: actual browser visual QA, file selection, clipboard and download verification. Original logo bytes unavailable; local logo picker provided.
