@@ -1,3 +1,4 @@
-PASS: JavaScript syntax; offline DOM startup; 12 tool views; settings/home; TC generation; boundary success/invalid input; pairwise; decision; API data; field data; sample data; JSON diff; schema violation; diagnostic script; saved tool validation; CSV formula protection; XLSX ZIP header; logo dialog; portable clean HTML template.
+PASS: JavaScript syntax; offline DOM startup; 12 tool views; settings/home; TC generation; boundary success/invalid input; pairwise; decision; API data; field data; sample data; JSON diff; schema violation; diagnostic script; saved tool validation; CSV formula protection; XLSX ZIP header; fixed embedded logo matches brand asset; removed logo picker/export controls and stored-logo override; #36c25e selection tokens (14% fill, 42% border, 8% hover); home preview/navigation and language switch.
+PASS: computed selected CSS for sidebar menu, input-mode tab, filter and home card resolves to rgba(54, 194, 94, 0.14), with rgba(54, 194, 94, 0.42) borders (input-mode underline uses 80%).
 No DOM runtime errors. Browser APIs missing from jsdom were stubbed.
-BLOCKED: actual browser visual QA, file selection, clipboard and download verification. Original logo bytes unavailable; local logo picker provided.
+BLOCKED: actual browser visual QA, file selection, clipboard and download verification.
