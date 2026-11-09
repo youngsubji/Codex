@@ -1,0 +1,654 @@
+[
+  {
+    "id": "AUTH-01",
+    "title": "정상/실패 로그인",
+    "priority": "P0",
+    "group": "로그인·권한·고객사 격리",
+    "expected": "올바른 계정은 진입하고 잘못된 인증정보는 오류로 처리한다.",
+    "needs": "",
+    "mutates": false,
+    "builtin": true,
+    "checks": [
+      "정상 로그인",
+      "실패 로그인"
+    ]
+  },
+  {
+    "id": "AUTH-02",
+    "title": "세션 만료",
+    "priority": "P0",
+    "group": "로그인·권한·고객사 격리",
+    "expected": "세션 만료 후 재로그인을 유도하고 민감 데이터를 노출하지 않는다.",
+    "needs": "만료 재현 방법·민감 데이터 식별자",
+    "mutates": false,
+    "builtin": false,
+    "checks": [
+      "재로그인 유도",
+      "민감 데이터 차단"
+    ]
+  },
+  {
+    "id": "AUTH-03",
+    "title": "역할별 접근",
+    "priority": "P0",
+    "group": "로그인·권한·고객사 격리",
+    "expected": "일반 사용자·관리자의 메뉴와 API 권한이 일치한다.",
+    "needs": "일반/관리자 계정·역할별 API 권한표",
+    "mutates": false,
+    "builtin": false,
+    "checks": [
+      "일반 메뉴",
+      "관리자 메뉴",
+      "일반 API",
+      "관리자 API"
+    ]
+  },
+  {
+    "id": "AUTH-04",
+    "title": "고객사 격리",
+    "priority": "P0",
+    "group": "로그인·권한·고객사 격리",
+    "expected": "다른 고객사의 차량·운전자·영상 ID 요청은 조회와 다운로드를 차단한다.",
+    "needs": "서로 다른 고객사 계정·승인된 타 고객사 ID·API 경로",
+    "mutates": false,
+    "builtin": false,
+    "checks": [
+      "차량 차단",
+      "운전자 차단",
+      "영상 차단",
+      "다운로드 차단"
+    ]
+  },
+  {
+    "id": "DASH-01",
+    "title": "조회 조건",
+    "priority": "P0",
+    "group": "대시보드 데이터 정확성",
+    "expected": "날짜·고객사·차량 변경 시 모든 지표가 동일 조건으로 갱신된다.",
+    "needs": "조건별 선택자·기준 지표",
+    "mutates": false,
+    "builtin": false,
+    "checks": [
+      "날짜",
+      "고객사",
+      "차량"
+    ]
+  },
+  {
+    "id": "DASH-02",
+    "title": "운행 집계",
+    "priority": "P0",
+    "group": "대시보드 데이터 정확성",
+    "expected": "운행/미운행 대수·운행률·거리/시간 합계·평균이 산식과 기준 데이터에 일치한다.",
+    "needs": "확정 산식·원본 운행 데이터",
+    "mutates": false,
+    "builtin": false,
+    "checks": [
+      "운행 대수",
+      "미운행 대수",
+      "운행률",
+      "거리 합계",
+      "시간 합계",
+      "평균"
+    ]
+  },
+  {
+    "id": "DASH-03",
+    "title": "이벤트 집계",
+    "priority": "P0",
+    "group": "대시보드 데이터 정확성",
+    "expected": "유형별 이벤트 건수와 중복 제거한 발생 차량 수가 원본과 일치한다.",
+    "needs": "원본 이벤트·유형/차량 기준값",
+    "mutates": false,
+    "builtin": false,
+    "checks": [
+      "이벤트 유형별 건수",
+      "중복 제거 차량 수"
+    ]
+  },
+  {
+    "id": "DASH-04",
+    "title": "데이터 없음",
+    "priority": "P0",
+    "group": "대시보드 데이터 정확성",
+    "expected": "차량 0대·운행 0건에서 NaN·무한대·이전 조회값이 표시되지 않는다.",
+    "needs": "빈 데이터 고객사·조회 조건·기대값",
+    "mutates": false,
+    "builtin": false,
+    "checks": [
+      "차량 0대",
+      "운행 0건",
+      "이전 값 제거"
+    ]
+  },
+  {
+    "id": "DASH-05",
+    "title": "5분 자동 갱신",
+    "priority": "P0",
+    "group": "대시보드 데이터 정확성",
+    "expected": "5분 갱신이 동작하고 선택한 검색 조건이 유지된다.",
+    "needs": "갱신 요청 경로·검색 조건 선택자",
+    "mutates": false,
+    "builtin": false,
+    "checks": [
+      "5분 갱신",
+      "조건 유지"
+    ]
+  },
+  {
+    "id": "VIDEO-01",
+    "title": "이벤트 식별 정확성",
+    "priority": "P0",
+    "group": "이벤트·영상 연결",
+    "expected": "선택 이벤트와 영상의 차량·발생 시각·유형이 일치한다.",
+    "needs": "기준 이벤트·영상 ID·메타데이터",
+    "mutates": false,
+    "builtin": false,
+    "checks": [
+      "차량",
+      "시각",
+      "유형"
+    ]
+  },
+  {
+    "id": "VIDEO-02",
+    "title": "영상 재생",
+    "priority": "P0",
+    "group": "이벤트·영상 연결",
+    "expected": "지원 채널의 재생·탐색·일시정지·종료가 정상 동작한다.",
+    "needs": "재생 가능한 테스트 영상·플레이어 선택자",
+    "mutates": false,
+    "builtin": false,
+    "checks": [
+      "채널",
+      "재생",
+      "탐색",
+      "일시정지",
+      "종료"
+    ]
+  },
+  {
+    "id": "VIDEO-03",
+    "title": "예외 영상",
+    "priority": "P0",
+    "group": "이벤트·영상 연결",
+    "expected": "미업로드·손상·접근 만료를 무한 로딩 없이 원인과 다음 동작으로 안내한다.",
+    "needs": "상태별 테스트 영상·기대 오류",
+    "mutates": false,
+    "builtin": false,
+    "checks": [
+      "미업로드",
+      "손상",
+      "접근 만료"
+    ]
+  },
+  {
+    "id": "VIDEO-04",
+    "title": "요청 중복·한도",
+    "priority": "P0",
+    "group": "이벤트·영상 연결",
+    "expected": "더블클릭·재시도·동시 요청에서 중복 요청/차감 없이 월별 한도를 지킨다.",
+    "needs": "격리된 영상 요청 계정·할당량·차감 정책",
+    "mutates": true,
+    "builtin": false,
+    "checks": [
+      "더블클릭",
+      "재시도",
+      "동시 요청",
+      "중복 차감",
+      "월별 한도"
+    ]
+  },
+  {
+    "id": "MAP-01",
+    "title": "상태 필터",
+    "priority": "P1",
+    "group": "지도·운행기록",
+    "expected": "전체·운행·운휴·사고 탭과 목록 조건이 일치한다.",
+    "needs": "상태별 차량·탭/목록 선택자",
+    "mutates": false,
+    "builtin": false,
+    "checks": [
+      "전체",
+      "운행",
+      "운휴",
+      "사고"
+    ]
+  },
+  {
+    "id": "MAP-02",
+    "title": "지도 연동",
+    "priority": "P1",
+    "group": "지도·운행기록",
+    "expected": "목록 선택·지도 위치·차량 상세가 같은 차량을 가리킨다.",
+    "needs": "차량 ID·기준 좌표·선택자",
+    "mutates": false,
+    "builtin": false,
+    "checks": [
+      "선택 차량",
+      "위치",
+      "상세"
+    ]
+  },
+  {
+    "id": "MAP-03",
+    "title": "위치 신선도",
+    "priority": "P1",
+    "group": "지도·운행기록",
+    "expected": "미수신·오래된 위치를 현재 위치처럼 표시하지 않는다.",
+    "needs": "미수신/오래된 GPS 데이터·시간 기준",
+    "mutates": false,
+    "builtin": false,
+    "checks": [
+      "미수신",
+      "오래된 위치"
+    ]
+  },
+  {
+    "id": "MAP-04",
+    "title": "운행기록",
+    "priority": "P1",
+    "group": "지도·운행기록",
+    "expected": "조회 기간에 맞는 경로·출발/도착·운행 시간이 표시된다.",
+    "needs": "운행 원본·조회 기간",
+    "mutates": false,
+    "builtin": false,
+    "checks": [
+      "기간",
+      "경로",
+      "출발/도착",
+      "운행 시간"
+    ]
+  },
+  {
+    "id": "MAP-05",
+    "title": "외부 지도 장애",
+    "priority": "P1",
+    "group": "지도·운행기록",
+    "expected": "지도 실패 오류를 안내하고 목록 기능을 유지한다.",
+    "needs": "지도 리소스 차단 패턴·목록 선택자",
+    "mutates": false,
+    "builtin": false,
+    "checks": [
+      "오류 안내",
+      "목록 유지"
+    ]
+  },
+  {
+    "id": "REQ-01",
+    "title": "시간 조건",
+    "priority": "P1",
+    "group": "이전영상보기·영상요청내역",
+    "expected": "시작>종료·경계 시각·허용 범위 초과를 정책대로 처리한다.",
+    "needs": "조회 기간 정책·입력 선택자",
+    "mutates": false,
+    "builtin": false,
+    "checks": [
+      "시작>종료",
+      "경계 시각",
+      "허용 범위"
+    ]
+  },
+  {
+    "id": "REQ-02",
+    "title": "스틸컷",
+    "priority": "P1",
+    "group": "이전영상보기·영상요청내역",
+    "expected": "2분 업로드 주기를 고려해 촬영 시각과 이미지·누락/지연을 처리한다.",
+    "needs": "촬영 원본·업로드 시각·주기 정책",
+    "mutates": false,
+    "builtin": false,
+    "checks": [
+      "촬영 시각",
+      "2분 주기",
+      "누락/지연"
+    ]
+  },
+  {
+    "id": "REQ-03",
+    "title": "요청 상태",
+    "priority": "P1",
+    "group": "이전영상보기·영상요청내역",
+    "expected": "정의된 요청 상태가 정상 전이하고 새로고침 후 일관된다.",
+    "needs": "격리된 요청 데이터·상태 전이표",
+    "mutates": true,
+    "builtin": false,
+    "checks": [
+      "상태 전이",
+      "새로고침 일관성"
+    ]
+  },
+  {
+    "id": "REQ-04",
+    "title": "잔여 횟수",
+    "priority": "P1",
+    "group": "이전영상보기·영상요청내역",
+    "expected": "성공/실패/취소의 차감과 월 전환 초기화가 정책과 일치한다.",
+    "needs": "테스트 할당량·차감/월 전환 정책",
+    "mutates": true,
+    "builtin": false,
+    "checks": [
+      "성공",
+      "실패",
+      "취소",
+      "월 전환"
+    ]
+  },
+  {
+    "id": "MGMT-01",
+    "title": "연결 관계",
+    "priority": "P1",
+    "group": "운전자·차량·기기관리",
+    "expected": "고객사·차량·운전자·기기의 연결이 목록/상세에서 일치한다.",
+    "needs": "연결 관계 기준 데이터",
+    "mutates": false,
+    "builtin": false,
+    "checks": [
+      "고객사",
+      "차량",
+      "운전자",
+      "기기"
+    ]
+  },
+  {
+    "id": "MGMT-02",
+    "title": "입력 검증",
+    "priority": "P1",
+    "group": "운전자·차량·기기관리",
+    "expected": "필수 누락·차량번호/시리얼 중복·공백/특수문자/최대 길이를 검증한다.",
+    "needs": "전용 테스트 항목·중복값·길이 정책",
+    "mutates": true,
+    "builtin": false,
+    "checks": [
+      "필수",
+      "중복",
+      "공백",
+      "특수문자",
+      "최대 길이"
+    ]
+  },
+  {
+    "id": "MGMT-03",
+    "title": "기기 상태",
+    "priority": "P1",
+    "group": "운전자·차량·기기관리",
+    "expected": "장치·카메라·SD카드/UMS 상태와 수집 시각이 기준 데이터에 일치한다.",
+    "needs": "기기 원본 상태·수집 시각",
+    "mutates": false,
+    "builtin": false,
+    "checks": [
+      "장치",
+      "카메라",
+      "SD/UMS",
+      "수집 시각"
+    ]
+  },
+  {
+    "id": "MGMT-04",
+    "title": "미수신 구분",
+    "priority": "P1",
+    "group": "운전자·차량·기기관리",
+    "expected": "미수신·오래된 데이터·정상·오류를 구분한다.",
+    "needs": "상태별 테스트 기기·신선도 기준",
+    "mutates": false,
+    "builtin": false,
+    "checks": [
+      "미수신",
+      "오래됨",
+      "정상",
+      "오류"
+    ]
+  },
+  {
+    "id": "MGMT-05",
+    "title": "안전지수",
+    "priority": "P1",
+    "group": "운전자·차량·기기관리",
+    "expected": "확정 산식으로 점수/등급/순위와 무운행·동점·운전자 변경을 검증한다.",
+    "needs": "확정 산식·점수/등급/순위 기준 데이터",
+    "mutates": false,
+    "builtin": false,
+    "checks": [
+      "산식",
+      "점수/등급/순위",
+      "무운행",
+      "동점",
+      "운전자 변경"
+    ]
+  },
+  {
+    "id": "REPORT-01",
+    "title": "조회",
+    "priority": "P1",
+    "group": "리포트·다운로드",
+    "expected": "주행/이벤트·월·고객사 조건에 맞는 리포트를 생성한다.",
+    "needs": "리포트 조건·기준 결과",
+    "mutates": false,
+    "builtin": false,
+    "checks": [
+      "유형",
+      "월",
+      "고객사"
+    ]
+  },
+  {
+    "id": "REPORT-02",
+    "title": "수치 일관성",
+    "priority": "P1",
+    "group": "리포트·다운로드",
+    "expected": "동일 기간·범위·집계 기준에서 대시보드와 리포트 수치가 일치한다.",
+    "needs": "기간·집계 정의·대시보드/리포트 선택자",
+    "mutates": false,
+    "builtin": false,
+    "checks": [
+      "동일 기간/범위/기준",
+      "대시보드/리포트 일치"
+    ]
+  },
+  {
+    "id": "REPORT-03",
+    "title": "다운로드",
+    "priority": "P1",
+    "group": "리포트·다운로드",
+    "expected": "파일이 열리고 한글·날짜·행 수·필터 조건이 정확하다.",
+    "needs": "다운로드 선택자·기대 헤더/행/내용",
+    "mutates": false,
+    "builtin": false,
+    "checks": [
+      "파일 열기",
+      "한글",
+      "날짜",
+      "행 수",
+      "필터 조건"
+    ]
+  },
+  {
+    "id": "REPORT-04",
+    "title": "페이지 범위",
+    "priority": "P1",
+    "group": "리포트·다운로드",
+    "expected": "전체/현재 페이지 다운로드 범위가 명세와 일치한다.",
+    "needs": "다운로드 범위 정책·전체/페이지 행 수",
+    "mutates": false,
+    "builtin": false,
+    "checks": [
+      "전체/페이지 범위"
+    ]
+  },
+  {
+    "id": "CONFIG-01",
+    "title": "알림",
+    "priority": "P1",
+    "group": "알림·설정",
+    "expected": "설정 대상/조건에만 발생하고 중복·누락·읽음 상태를 검증한다.",
+    "needs": "알림 정책·격리된 이벤트/대상",
+    "mutates": true,
+    "builtin": false,
+    "checks": [
+      "대상/조건",
+      "중복/누락",
+      "읽음 상태"
+    ]
+  },
+  {
+    "id": "CONFIG-02",
+    "title": "지오펜스",
+    "priority": "P1",
+    "group": "알림·설정",
+    "expected": "진입/이탈·경계·GPS 흔들림의 판정 규칙을 검증한다.",
+    "needs": "지오펜스 정책·GPS 테스트 경로",
+    "mutates": true,
+    "builtin": false,
+    "checks": [
+      "진입",
+      "이탈",
+      "경계",
+      "GPS 흔들림"
+    ]
+  },
+  {
+    "id": "CONFIG-03",
+    "title": "감지기준",
+    "priority": "P1",
+    "group": "알림·설정",
+    "expected": "최소/최대/범위 밖 입력과 저장 후 재조회 값을 검증한다.",
+    "needs": "기준 범위·격리된 설정 대상",
+    "mutates": true,
+    "builtin": false,
+    "checks": [
+      "최소",
+      "최대",
+      "범위 밖",
+      "재조회"
+    ]
+  },
+  {
+    "id": "CONFIG-04",
+    "title": "변경 이력",
+    "priority": "P1",
+    "group": "알림·설정",
+    "expected": "변경자·시각·대상·변경 내용을 감사 정책대로 기록한다.",
+    "needs": "감사 정책·격리된 변경 대상",
+    "mutates": true,
+    "builtin": false,
+    "checks": [
+      "변경자",
+      "시각",
+      "대상",
+      "내용"
+    ]
+  },
+  {
+    "id": "COMMON-01",
+    "title": "검색",
+    "priority": "공통",
+    "group": "모든 화면 공통",
+    "expected": "정확/부분 일치·없는 차량·한글/영문/공백 검색을 검증한다.",
+    "needs": "검색 정책·기준 차량·선택자",
+    "mutates": false,
+    "builtin": false,
+    "checks": [
+      "정확/부분",
+      "없음",
+      "한글/영문/공백"
+    ]
+  },
+  {
+    "id": "COMMON-02",
+    "title": "날짜",
+    "priority": "공통",
+    "group": "모든 화면 공통",
+    "expected": "자정·월말/연말·윤년·미래·최대 기간과 서비스 시간대를 검증한다.",
+    "needs": "서비스 시간대·조회 기간 정책",
+    "mutates": false,
+    "builtin": false,
+    "checks": [
+      "자정",
+      "월말/연말",
+      "윤년",
+      "미래",
+      "최대 기간",
+      "시간대"
+    ]
+  },
+  {
+    "id": "COMMON-03",
+    "title": "목록",
+    "priority": "공통",
+    "group": "모든 화면 공통",
+    "expected": "정렬·페이지/크기 변경 시 누락/중복 없이 검색 조건을 유지한다.",
+    "needs": "기준 목록·정렬/페이지 선택자",
+    "mutates": false,
+    "builtin": false,
+    "checks": [
+      "정렬",
+      "페이지 이동",
+      "크기 변경",
+      "누락/중복",
+      "조건 유지"
+    ]
+  },
+  {
+    "id": "COMMON-04",
+    "title": "비동기 응답",
+    "priority": "공통",
+    "group": "모든 화면 공통",
+    "expected": "A→B 변경 후 늦은 A 응답이 B 결과를 덮어쓰지 않는다.",
+    "needs": "응답 지연 패턴·A/B 기준 결과",
+    "mutates": false,
+    "builtin": false,
+    "checks": [
+      "A→B",
+      "늦은 A 응답 차단"
+    ]
+  },
+  {
+    "id": "COMMON-05",
+    "title": "장애 복구",
+    "priority": "공통",
+    "group": "모든 화면 공통",
+    "expected": "타임아웃·401/403/500·오프라인에서 로딩 종료/재시도를 처리한다.",
+    "needs": "요청 차단/모의 응답 패턴·오류/재시도 선택자",
+    "mutates": false,
+    "builtin": false,
+    "checks": [
+      "타임아웃",
+      "401",
+      "403",
+      "500",
+      "오프라인",
+      "재시도"
+    ]
+  },
+  {
+    "id": "COMMON-06",
+    "title": "보안",
+    "priority": "공통",
+    "group": "모든 화면 공통",
+    "expected": "개인정보/영상 URL 노출·스크립트 실행·권한 없는 직접 접근을 차단한다.",
+    "needs": "민감 데이터 표식·권한표·격리된 입력 대상",
+    "mutates": true,
+    "builtin": false,
+    "checks": [
+      "개인정보/영상 URL",
+      "스크립트 실행 차단",
+      "직접 접근 차단"
+    ]
+  },
+  {
+    "id": "COMMON-07",
+    "title": "성능·호환성",
+    "priority": "공통",
+    "group": "모든 화면 공통",
+    "expected": "합의한 데이터량과 지원 브라우저에서 조회/지도/영상 성능을 측정한다.",
+    "needs": "성능 한도·데이터량·지원 브라우저 목록",
+    "mutates": false,
+    "builtin": false,
+    "checks": [
+      "조회 성능",
+      "지도 성능",
+      "영상 성능",
+      "지원 브라우저"
+    ]
+  }
+]

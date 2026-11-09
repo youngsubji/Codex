@@ -1,0 +1,9 @@
+{
+  "name": "aid25-local-test-runner",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {"node": ">=20"},
+  "scripts": {"start": "node server.mjs", "test": "node --test test/*.test.mjs"},
+  "dependencies": {"playwright": "1.65.0", "exceljs": "4.4.0"}
+}
